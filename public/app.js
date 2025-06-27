@@ -1,0 +1,216 @@
+class YouTubeConverter {
+    constructor() {
+        this.currentVideoUrl = '';
+        this.init();
+    }
+
+    init() {
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        const form = document.getElementById('urlForm');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        form.addEventListener('submit', (e) => this.handleUrlSubmit(e));
+        downloadBtn.addEventListener('click', () => this.handleDownload());
+    }
+
+    async handleUrlSubmit(e) {
+        e.preventDefault();
+        
+        const urlInput = document.getElementById('youtubeUrl');
+        const url = urlInput.value.trim();
+
+        if (!this.isValidYouTubeUrl(url)) {
+            this.showError('Veuillez entrer une URL YouTube valide');
+            return;
+        }
+
+        this.currentVideoUrl = url;
+        await this.fetchVideoInfo(url);
+    }
+
+    async fetchVideoInfo(url) {
+        this.showLoading(true);
+        this.hideError();
+        this.hideVideoInfo();
+
+        try {
+            const response = await fetch('/api/info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Erreur lors de la récupération des informations');
+            }
+
+            this.displayVideoInfo(data);
+        } catch (error) {
+            this.showError(error.message);
+        } finally {
+            this.showLoading(false);
+        }
+    }
+
+    async handleDownload() {
+        if (!this.currentVideoUrl) return;
+
+        this.showDownloadProgress(true);
+        this.hideError();
+
+        try {
+            const response = await fetch('/api/convert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    url: this.currentVideoUrl
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Erreur lors de la conversion');
+            }
+
+            const blob = await response.blob();
+            const contentDisposition = response.headers.get('Content-Disposition');
+            const filename = this.extractFilename(contentDisposition) || 'mp3rapide.fr - audio.mp3';
+
+            this.downloadFile(blob, filename);
+            this.showSuccess('Conversion MP3 terminée ! Fichier téléchargé.');
+        } catch (error) {
+            this.showError(error.message);
+        } finally {
+            this.showDownloadProgress(false);
+        }
+    }
+
+    displayVideoInfo(data) {
+        document.getElementById('videoThumbnail').src = data.thumbnail;
+        document.getElementById('videoTitle').textContent = data.title;
+        document.getElementById('videoAuthor').textContent = data.author;
+        document.getElementById('videoDuration').textContent = this.formatDuration(data.duration);
+        document.getElementById('videoViews').textContent = this.formatNumber(data.viewCount);
+        
+        this.showVideoInfo();
+    }
+
+    downloadFile(blob, filename) {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    }
+
+    extractFilename(contentDisposition) {
+        if (!contentDisposition) return null;
+        const match = contentDisposition.match(/filename="(.+)"/);
+        return match ? match[1] : null;
+    }
+
+    formatDuration(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+
+        if (hours > 0) {
+            return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        return `${minutes}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    formatNumber(num) {
+        return new Intl.NumberFormat('fr-FR').format(num);
+    }
+
+    isValidYouTubeUrl(url) {
+        const regex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+        return regex.test(url);
+    }
+
+    showLoading(show) {
+        const loadingState = document.getElementById('loadingState');
+        loadingState.classList.toggle('hidden', !show);
+    }
+
+    showDownloadProgress(show) {
+        const progressState = document.getElementById('downloadProgress');
+        const downloadBtn = document.getElementById('downloadBtn');
+        
+        progressState.classList.toggle('hidden', !show);
+        downloadBtn.disabled = show;
+        
+        if (show) {
+            downloadBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else {
+            downloadBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    }
+
+    showVideoInfo() {
+        document.getElementById('videoInfo').classList.remove('hidden');
+    }
+
+    hideVideoInfo() {
+        document.getElementById('videoInfo').classList.add('hidden');
+    }
+
+    showError(message) {
+        const errorDiv = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        
+        errorText.textContent = message;
+        errorDiv.classList.remove('hidden');
+
+        setTimeout(() => {
+            this.hideError();
+        }, 5000);
+    }
+
+    hideError() {
+        document.getElementById('errorMessage').classList.add('hidden');
+    }
+
+    showSuccess(message) {
+        const errorDiv = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        
+        errorDiv.className = 'bg-green-50 border border-green-200 rounded-lg p-4 mb-6';
+        errorDiv.innerHTML = `
+            <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                <span class="text-green-700">${message}</span>
+            </div>
+        `;
+        errorDiv.classList.remove('hidden');
+
+        setTimeout(() => {
+            this.hideError();
+            errorDiv.className = 'hidden bg-red-50 border border-red-200 rounded-lg p-4 mb-6';
+            errorDiv.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-red-500 mr-3"></i>
+                    <span class="text-red-700" id="errorText"></span>
+                </div>
+            `;
+        }, 3000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new YouTubeConverter();
+});

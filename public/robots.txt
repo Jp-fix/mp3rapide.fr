@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://mp3rapide.fr/sitemap.xml
+
+# Prevent indexing of API endpoints
+Disallow: /api/
+Disallow: /temp/
+
+# Allow common bot crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
