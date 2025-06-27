@@ -1,29 +1,49 @@
 {
-    "name": "MP3Rapide.fr - YouTube to MP3 Converter",
-    "short_name": "MP3Rapide",
-    "description": "Convertisseur YouTube vers MP3 gratuit et rapide",
-    "icons": [
-        {
-            "src": "/favicon-32x32.png",
-            "sizes": "32x32",
-            "type": "image/png"
-        },
-        {
-            "src": "/favicon-16x16.png",
-            "sizes": "16x16",
-            "type": "image/png"
-        },
-        {
-            "src": "/apple-touch-icon.png",
-            "sizes": "180x180",
-            "type": "image/png"
-        }
-    ],
-    "theme_color": "#2563eb",
-    "background_color": "#ffffff",
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "/",
-    "orientation": "portrait-primary",
-    "categories": ["music", "entertainment", "utilities"]
+  "name": "MP3Rapide.fr - Convertisseur YouTube MP3",
+  "short_name": "MP3Rapide",
+  "description": "Convertissez vos vidéos YouTube en MP3 haute qualité gratuitement",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/img/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Convertir YouTube en MP3",
+      "short_name": "Convertir",
+      "description": "Commencez une nouvelle conversion",
+      "url": "/",
+      "icons": [{ "src": "/img/android-chrome-192x192.png", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["music", "utilities", "entertainment"],
+  "lang": "fr-FR",
+  "scope": "/"
 }
