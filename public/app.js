@@ -11,9 +11,25 @@ class YouTubeConverter {
     bindEvents() {
         const form = document.getElementById('urlForm');
         const downloadBtn = document.getElementById('downloadBtn');
+        const convertAnotherBtnModal = document.getElementById('convertAnotherBtnModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalOverlay = document.getElementById('modalOverlay');
 
-        form.addEventListener('submit', (e) => this.handleUrlSubmit(e));
-        downloadBtn.addEventListener('click', () => this.handleDownload());
+        if (form) {
+            form.addEventListener('submit', (e) => this.handleUrlSubmit(e));
+        }
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', () => this.handleDownload());
+        }
+        if (convertAnotherBtnModal) {
+            convertAnotherBtnModal.addEventListener('click', () => this.handleConvertAnother());
+        }
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', () => this.hideSuccessModal());
+        }
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', () => this.hideSuccessModal());
+        }
     }
 
     async handleUrlSubmit(e) {
@@ -87,6 +103,7 @@ class YouTubeConverter {
 
             this.downloadFile(blob, filename);
             this.showSuccess('Conversion MP3 terminée ! Fichier téléchargé.');
+            this.showSuccessModal();
         } catch (error) {
             this.showError(error.message);
         } finally {
@@ -208,6 +225,37 @@ class YouTubeConverter {
                 </div>
             `;
         }, 3000);
+    }
+
+
+    showSuccessModal() {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            
+            // Initialize Ko-fi for modal if not already done
+            const kofiModal = document.getElementById('kofiModal');
+            if (kofiModal && kofiModal.innerHTML === '') {
+                // Create a fresh button for the modal
+                const button = document.createElement('a');
+                button.href = 'https://ko-fi.com/V7V41H5OBB';
+                button.target = '_blank';
+                button.className = 'flex-1 inline-flex justify-center items-center px-4 py-2 bg-[#72a4f2] text-white rounded-lg hover:bg-[#5a92e0] transition-colors text-sm font-medium';
+                button.innerHTML = '<i class="fas fa-heart mr-2"></i>Soutenir mp3rapide';
+                kofiModal.appendChild(button);
+            }
+        }
+    }
+
+    hideSuccessModal() {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    }
+
+    handleConvertAnother() {
+        window.location.reload();
     }
 }
 

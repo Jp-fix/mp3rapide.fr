@@ -7,7 +7,7 @@
 6 silly config load:file:/Users/jp/.nvm/versions/node/v20.18.1/etc/npmrc
 7 verbose title npm start
 8 verbose argv "start"
-9 verbose logfile logs-max:10 dir:/Users/jp/ProjetsWeb/mp3rapide.fr/.npm-cache/_logs/2025-06-27T20_11_43_806Z-
-10 verbose logfile /Users/jp/ProjetsWeb/mp3rapide.fr/.npm-cache/_logs/2025-06-27T20_11_43_806Z-debug-0.log
+9 verbose logfile logs-max:10 dir:/Users/jp/ProjetsWeb/mp3rapide.fr/.npm-cache/_logs/2025-06-28T09_14_38_575Z-
+10 verbose logfile /Users/jp/ProjetsWeb/mp3rapide.fr/.npm-cache/_logs/2025-06-28T09_14_38_575Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
 12 silly logfile done cleaning log files
