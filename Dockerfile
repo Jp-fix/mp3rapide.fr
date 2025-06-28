@@ -1,15 +1,20 @@
 # Use Node.js 18 with Alpine for smaller image size
 FROM node:18-alpine
 
-# Install FFmpeg, Python, and yt-dlp
+# Install FFmpeg and build dependencies
 RUN apk add --no-cache \
     ffmpeg \
     python3 \
     py3-pip \
     make \
     g++ \
-    && rm -rf /var/cache/apk/* \
-    && pip3 install --no-cache-dir yt-dlp
+    curl \
+    && rm -rf /var/cache/apk/*
+
+# Install yt-dlp directly from binary for better reliability
+RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp \
+    && chmod a+rx /usr/local/bin/yt-dlp \
+    && yt-dlp --version
 
 # Set working directory
 WORKDIR /app
