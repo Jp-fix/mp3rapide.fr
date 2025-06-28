@@ -109,6 +109,11 @@ app.post('/api/info', async (req, res) => {
       return res.status(403).json({ error: 'YouTube a détecté une activité suspecte. Réessayez dans quelques instants.' });
     }
     
+    if (error.message.includes('Error when parsing watch.html')) {
+      console.error('YouTube HTML structure changed - library needs update');
+      return res.status(503).json({ error: 'YouTube a modifié sa structure. Service temporairement indisponible. Nous travaillons sur une solution.' });
+    }
+    
     if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
       return res.status(503).json({ error: 'Problème de connexion réseau' });
     }
