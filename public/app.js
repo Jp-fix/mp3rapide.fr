@@ -276,12 +276,12 @@ class YouTubeConverter {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const version = 'v1.2.3-fix-api-info';
+    const version = 'v1.3.0-ytdlp';
     const deploymentId = 'deploy-' + Date.now();
     
     console.log(`🎵 MP3Rapide Frontend ${version}`);
     console.log(`📋 Frontend Deployment ID: ${deploymentId}`);
-    console.log('✅ Error handling improvements: ACTIVE');
+    console.log('✅ yt-dlp integration: ACTIVE');
     console.log('🔧 Debug mode: Check Network tab for API calls');
     
     new YouTubeConverter();

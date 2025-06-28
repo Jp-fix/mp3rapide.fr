@@ -1,5 +1,6 @@
 const express = require('express');
 const ytdl = require('@distube/ytdl-core');
+const ytdlp = require('./ytdlp-wrapper');
 const ffmpeg = require('fluent-ffmpeg');
 const path = require('path');
 const fs = require('fs');
@@ -48,26 +49,41 @@ app.post('/api/info', async (req, res) => {
 
     console.log(`Fetching info for URL: ${cleanUrl}`);
     
-    // Options pour contourner la détection de bot
-    const ytdlOptions = {
-      requestOptions: {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'Connection': 'keep-alive',
-          'Upgrade-Insecure-Requests': '1',
-          'Sec-Fetch-Dest': 'document',
-          'Sec-Fetch-Mode': 'navigate',
-          'Sec-Fetch-Site': 'none',
-          'Sec-Fetch-User': '?1',
-          'Cache-Control': 'max-age=0',
-        }
-      }
-    };
+    let info;
     
-    const info = await ytdl.getInfo(cleanUrl, ytdlOptions);
+    // Try yt-dlp first, fallback to ytdl-core if it fails
+    try {
+      const ytdlpAvailable = await ytdlp.checkInstallation();
+      if (ytdlpAvailable) {
+        console.log('Using yt-dlp for video info...');
+        info = await ytdlp.getInfo(cleanUrl);
+      } else {
+        throw new Error('yt-dlp not available, using ytdl-core');
+      }
+    } catch (ytdlpError) {
+      console.log('yt-dlp failed, falling back to ytdl-core:', ytdlpError.message);
+      
+      // Fallback to ytdl-core
+      const ytdlOptions = {
+        requestOptions: {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'none',
+            'Sec-Fetch-User': '?1',
+            'Cache-Control': 'max-age=0',
+          }
+        }
+      };
+      
+      info = await ytdl.getInfo(cleanUrl, ytdlOptions);
+    }
     
     if (!info || !info.videoDetails) {
       console.error('No video details found in response');
@@ -199,11 +215,18 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  const deploymentId = 'v1.2.3-fix-api-info-' + Date.now();
-  console.log(`🚀 MP3Rapide Server v1.2.3`);
+app.listen(PORT, async () => {
+  const deploymentId = 'v1.3.0-ytdlp-' + Date.now();
+  console.log(`🚀 MP3Rapide Server v1.3.0 (yt-dlp)`);
   console.log(`📋 Deployment ID: ${deploymentId}`);
   console.log(`🌐 Serveur démarré sur http://localhost:${PORT}`);
   console.log('⚙️  Assurez-vous que FFmpeg est installé sur votre système');
-  console.log('✅ API /api/info error handling: ACTIVE');
+  
+  // Check yt-dlp installation
+  const ytdlpInstalled = await ytdlp.checkInstallation();
+  if (ytdlpInstalled) {
+    console.log('✅ yt-dlp: INSTALLED');
+  } else {
+    console.log('❌ yt-dlp: NOT FOUND - Falling back to ytdl-core');
+  }
 });

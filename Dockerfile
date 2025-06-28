@@ -1,13 +1,15 @@
 # Use Node.js 18 with Alpine for smaller image size
 FROM node:18-alpine
 
-# Install FFmpeg and other necessary packages
+# Install FFmpeg, Python, and yt-dlp
 RUN apk add --no-cache \
     ffmpeg \
     python3 \
+    py3-pip \
     make \
     g++ \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/cache/apk/* \
+    && pip3 install --no-cache-dir yt-dlp
 
 # Set working directory
 WORKDIR /app
