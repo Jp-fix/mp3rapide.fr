@@ -47,7 +47,27 @@ app.post('/api/info', async (req, res) => {
     }
 
     console.log(`Fetching info for URL: ${cleanUrl}`);
-    const info = await ytdl.getInfo(cleanUrl);
+    
+    // Options pour contourner la détection de bot
+    const ytdlOptions = {
+      requestOptions: {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Connection': 'keep-alive',
+          'Upgrade-Insecure-Requests': '1',
+          'Sec-Fetch-Dest': 'document',
+          'Sec-Fetch-Mode': 'navigate',
+          'Sec-Fetch-Site': 'none',
+          'Sec-Fetch-User': '?1',
+          'Cache-Control': 'max-age=0',
+        }
+      }
+    };
+    
+    const info = await ytdl.getInfo(cleanUrl, ytdlOptions);
     
     if (!info || !info.videoDetails) {
       console.error('No video details found in response');
@@ -84,6 +104,11 @@ app.post('/api/info', async (req, res) => {
       return res.status(403).json({ error: 'Cette vidéo est soumise à une restriction d\'âge' });
     }
     
+    if (error.message.includes('Sign in to confirm')) {
+      console.error('YouTube bot detection triggered');
+      return res.status(403).json({ error: 'YouTube a détecté une activité suspecte. Réessayez dans quelques instants.' });
+    }
+    
     if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
       return res.status(503).json({ error: 'Problème de connexion réseau' });
     }
@@ -111,7 +136,14 @@ app.post('/api/convert', async (req, res) => {
       });
     }
 
-    const info = await ytdl.getInfo(url);
+    const info = await ytdl.getInfo(url, {
+      requestOptions: {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+        }
+      }
+    });
     const title = sanitizeFilename(info.videoDetails.title);
     const filename = `mp3rapide.fr - ${title}.mp3`;
 
@@ -122,7 +154,18 @@ app.post('/api/convert', async (req, res) => {
 
     const audioStream = ytdl(url, {
       quality: 'highestaudio',
-      filter: 'audioonly'
+      filter: 'audioonly',
+      requestOptions: {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Connection': 'keep-alive',
+          'Upgrade-Insecure-Requests': '1',
+          'Cache-Control': 'max-age=0',
+        }
+      }
     });
 
     ffmpeg(audioStream)
