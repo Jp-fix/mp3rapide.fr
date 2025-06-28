@@ -260,5 +260,13 @@ class YouTubeConverter {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const version = 'v1.2.3-fix-api-info';
+    const deploymentId = 'deploy-' + Date.now();
+    
+    console.log(`🎵 MP3Rapide Frontend ${version}`);
+    console.log(`📋 Frontend Deployment ID: ${deploymentId}`);
+    console.log('✅ Error handling improvements: ACTIVE');
+    console.log('🔧 Debug mode: Check Network tab for API calls');
+    
     new YouTubeConverter();
 });

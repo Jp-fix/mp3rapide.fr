@@ -152,6 +152,10 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Serveur démarré sur http://localhost:${PORT}`);
-  console.log('Assurez-vous que FFmpeg est installé sur votre système');
+  const deploymentId = 'v1.2.3-fix-api-info-' + Date.now();
+  console.log(`🚀 MP3Rapide Server v1.2.3`);
+  console.log(`📋 Deployment ID: ${deploymentId}`);
+  console.log(`🌐 Serveur démarré sur http://localhost:${PORT}`);
+  console.log('⚙️  Assurez-vous que FFmpeg est installé sur votre système');
+  console.log('✅ API /api/info error handling: ACTIVE');
 });
