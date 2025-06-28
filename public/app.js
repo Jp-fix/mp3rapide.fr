@@ -53,6 +53,7 @@ class YouTubeConverter {
         this.hideVideoInfo();
 
         try {
+            console.log('🔍 Fetching video info for:', url);
             const response = await fetch('/api/info', {
                 method: 'POST',
                 headers: {
@@ -61,15 +62,30 @@ class YouTubeConverter {
                 body: JSON.stringify({ url })
             });
 
+            console.log('📡 API Response status:', response.status);
+            console.log('📡 API Response headers:', Object.fromEntries(response.headers.entries()));
+
             const data = await response.json();
+            console.log('📦 API Response data:', data);
 
             if (!response.ok) {
+                console.error('❌ API Error - Status:', response.status, 'Data:', data);
                 throw new Error(data.error || 'Erreur lors de la récupération des informations');
             }
 
+            console.log('✅ Video info fetched successfully');
             this.displayVideoInfo(data);
         } catch (error) {
-            this.showError(error.message);
+            console.error('💥 Fetch error details:');
+            console.error('Error name:', error.name);
+            console.error('Error message:', error.message);
+            console.error('Error stack:', error.stack);
+            
+            if (error instanceof TypeError && error.message.includes('fetch')) {
+                this.showError('Impossible de contacter le serveur. Vérifiez votre connexion.');
+            } else {
+                this.showError(error.message);
+            }
         } finally {
             this.showLoading(false);
         }
