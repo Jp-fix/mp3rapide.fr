@@ -1,4 +1,5 @@
 # Use Node.js 18 with Alpine for smaller image size
+# Force rebuild: v1.3.1
 FROM node:18-alpine
 
 # Install FFmpeg and build dependencies
