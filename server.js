@@ -32,28 +32,62 @@ app.post('/api/info', async (req, res) => {
   try {
     const { url } = req.body;
     
-    if (!url || !isValidYouTubeUrl(url)) {
+    if (!url || typeof url !== 'string' || url.trim().length === 0) {
+      return res.status(400).json({ error: 'URL manquante ou invalide' });
+    }
+
+    const cleanUrl = url.trim();
+    
+    if (!isValidYouTubeUrl(cleanUrl)) {
       return res.status(400).json({ error: 'URL YouTube invalide' });
     }
 
-    if (!ytdl.validateURL(url)) {
+    if (!ytdl.validateURL(cleanUrl)) {
       return res.status(400).json({ error: 'URL YouTube non valide ou vidéo indisponible' });
     }
 
-    const info = await ytdl.getInfo(url);
+    console.log(`Fetching info for URL: ${cleanUrl}`);
+    const info = await ytdl.getInfo(cleanUrl);
+    
+    if (!info || !info.videoDetails) {
+      console.error('No video details found in response');
+      return res.status(404).json({ error: 'Informations de la vidéo non trouvées' });
+    }
+
     const videoDetails = info.videoDetails;
 
     const responseData = {
       title: videoDetails.title,
-      author: videoDetails.author.name,
+      author: videoDetails.author?.name || 'Auteur inconnu',
       duration: videoDetails.lengthSeconds,
-      thumbnail: videoDetails.thumbnails[videoDetails.thumbnails.length - 1].url,
-      viewCount: videoDetails.viewCount
+      thumbnail: videoDetails.thumbnails?.[videoDetails.thumbnails.length - 1]?.url || '',
+      viewCount: videoDetails.viewCount || '0'
     };
 
+    console.log(`Successfully fetched info for: ${videoDetails.title}`);
     res.json(responseData);
   } catch (error) {
-    console.error('Erreur lors de la récupération des infos:', error);
+    console.error('Erreur détaillée lors de la récupération des infos:');
+    console.error('Error name:', error.name);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    
+    if (error.message.includes('Video unavailable')) {
+      return res.status(404).json({ error: 'Vidéo non disponible ou privée' });
+    }
+    
+    if (error.message.includes('Private video')) {
+      return res.status(403).json({ error: 'Cette vidéo est privée' });
+    }
+    
+    if (error.message.includes('age-restricted')) {
+      return res.status(403).json({ error: 'Cette vidéo est soumise à une restriction d\'âge' });
+    }
+    
+    if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
+      return res.status(503).json({ error: 'Problème de connexion réseau' });
+    }
+    
     res.status(500).json({ error: 'Erreur lors de la récupération des informations de la vidéo' });
   }
 });
