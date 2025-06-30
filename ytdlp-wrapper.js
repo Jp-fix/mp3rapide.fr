@@ -13,51 +13,42 @@ class YtDlpWrapper {
    * @returns {Promise<Object>} Video information
    */
   async getInfo(url) {
+    const command = `yt-dlp --dump-json --no-warnings --no-call-home --no-check-certificate --user-agent "${this.userAgent}" "${url}"`;
+    console.log(`Executing yt-dlp command: ${command}`);
     try {
-      // Use yt-dlp to get video info in JSON format
-      const command = `yt-dlp --dump-json --no-warnings --no-call-home --no-check-certificate --user-agent "${this.userAgent}" "${url}"`;
-      
-      console.log('Executing yt-dlp for info:', url);
-      const { stdout, stderr } = await execAsync(command, { maxBuffer: 10 * 1024 * 1024 }); // 10MB buffer
-      
-      if (stderr && !stderr.includes('WARNING')) {
-        console.error('yt-dlp stderr:', stderr);
+      const { stdout, stderr } = await execAsync(command, { maxBuffer: 10 * 1024 * 1024 });
+      if (stderr) {
+        console.warn(`yt-dlp stderr: ${stderr}`);
       }
-
       const info = JSON.parse(stdout);
-      
-      // Transform yt-dlp output to match our expected format
       return {
         videoDetails: {
           title: info.title || 'Unknown Title',
-          author: {
-            name: info.uploader || info.channel || 'Unknown Author'
-          },
+          author: { name: info.uploader || info.channel || 'Unknown Author' },
           lengthSeconds: info.duration || 0,
           thumbnails: info.thumbnails || [{ url: info.thumbnail }],
           viewCount: info.view_count || 0,
           videoId: info.id,
-          description: info.description
-        }
+          description: info.description,
+        },
       };
     } catch (error) {
-      console.error('yt-dlp error:', error);
-      
-      // Parse specific yt-dlp errors
-      if (error.message.includes('Video unavailable')) {
-        throw new Error('Video unavailable');
-      }
-      if (error.message.includes('Private video')) {
-        throw new Error('Private video');
-      }
-      if (error.message.includes('age limit')) {
-        throw new Error('Video is age-restricted');
+      console.error(`Failed to get video info with yt-dlp for URL: ${url}`, error);
+      if (error.stderr) {
+        if (error.stderr.includes('Video unavailable')) {
+          throw new Error('Video unavailable');
+        }
+        if (error.stderr.includes('Private video')) {
+          throw new Error('Private video');
+        }
+        if (error.stderr.includes('age limit')) {
+          throw new Error('Video is age-restricted');
+        }
       }
       if (error.code === 'ENOENT') {
         throw new Error('yt-dlp not found. Please ensure yt-dlp is installed.');
       }
-      
-      throw error;
+      throw new Error(`yt-dlp failed: ${error.message}`);
     }
   }
 
