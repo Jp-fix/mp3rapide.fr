@@ -146,10 +146,6 @@ app.post('/api/convert', async (req, res) => {
       return res.status(400).json({ error: 'URL YouTube invalide' });
     }
 
-    if (!ytdl.validateURL(url)) {
-      return res.status(400).json({ error: 'URL YouTube non valide ou vidéo indisponible' });
-    }
-
     const ffmpegAvailable = await checkFFmpeg();
     if (!ffmpegAvailable) {
       return res.status(500).json({ 
@@ -157,37 +153,97 @@ app.post('/api/convert', async (req, res) => {
       });
     }
 
-    const info = await ytdl.getInfo(url, {
-      requestOptions: {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+    let audioStream;
+    let info;
+    let title;
+    
+    // Try yt-dlp first, fallback to ytdl-core if it fails
+    const ytdlpAvailable = await ytdlp.checkInstallation();
+    
+    if (ytdlpAvailable) {
+      console.log('Using yt-dlp for audio download...');
+      try {
+        // Get video info for title
+        info = await ytdlp.getInfo(url);
+        title = sanitizeFilename(info.videoDetails.title);
+        
+        // Get audio stream
+        audioStream = await ytdlp.downloadAudio(url);
+        console.log(`Downloading with yt-dlp: ${title}`);
+      } catch (ytdlpError) {
+        console.error('yt-dlp download failed:', ytdlpError.message);
+        console.log('Falling back to ytdl-core...');
+        
+        // Fallback to ytdl-core
+        if (!ytdl.validateURL(url)) {
+          return res.status(400).json({ error: 'URL YouTube non valide ou vidéo indisponible' });
         }
+        
+        info = await ytdl.getInfo(url, {
+          requestOptions: {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+              'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+            }
+          }
+        });
+        title = sanitizeFilename(info.videoDetails.title);
+        
+        audioStream = ytdl(url, {
+          quality: 'highestaudio',
+          filter: 'audioonly',
+          requestOptions: {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+              'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+              'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+              'Accept-Encoding': 'gzip, deflate, br',
+              'Connection': 'keep-alive',
+              'Upgrade-Insecure-Requests': '1',
+              'Cache-Control': 'max-age=0',
+            }
+          }
+        });
       }
-    });
-    const title = sanitizeFilename(info.videoDetails.title);
-    const filename = `mp3rapide.fr - ${title}.mp3`;
+    } else {
+      console.log('yt-dlp not available, using ytdl-core...');
+      
+      if (!ytdl.validateURL(url)) {
+        return res.status(400).json({ error: 'URL YouTube non valide ou vidéo indisponible' });
+      }
+      
+      info = await ytdl.getInfo(url, {
+        requestOptions: {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+          }
+        }
+      });
+      title = sanitizeFilename(info.videoDetails.title);
+      
+      audioStream = ytdl(url, {
+        quality: 'highestaudio',
+        filter: 'audioonly',
+        requestOptions: {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Cache-Control': 'max-age=0',
+          }
+        }
+      });
+    }
 
+    const filename = `mp3rapide.fr - ${title}.mp3`;
     console.log(`Conversion MP3: ${title}`);
 
     res.setHeader('Content-Disposition', `attachment; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(filename)}`);
     res.setHeader('Content-Type', 'audio/mpeg');
-
-    const audioStream = ytdl(url, {
-      quality: 'highestaudio',
-      filter: 'audioonly',
-      requestOptions: {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'Connection': 'keep-alive',
-          'Upgrade-Insecure-Requests': '1',
-          'Cache-Control': 'max-age=0',
-        }
-      }
-    });
 
     ffmpeg(audioStream)
       .audioBitrate(320)
@@ -205,6 +261,11 @@ app.post('/api/convert', async (req, res) => {
 
   } catch (error) {
     console.error('Erreur lors du téléchargement:', error);
+    
+    if (error.message && error.message.includes('Error when parsing watch.html')) {
+      return res.status(503).json({ error: 'YouTube a modifié sa structure. Service temporairement indisponible. Nous travaillons sur une solution.' });
+    }
+    
     if (!res.headersSent) {
       res.status(500).json({ error: 'Erreur lors du téléchargement de la vidéo' });
     }

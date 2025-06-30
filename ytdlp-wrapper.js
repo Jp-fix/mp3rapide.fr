@@ -69,32 +69,76 @@ class YtDlpWrapper {
    */
   async downloadAudio(url, options = {}) {
     const { spawn } = require('child_process');
+    const fs = require('fs');
+    const path = require('path');
+    const { randomBytes } = require('crypto');
     
-    // yt-dlp command to extract audio
+    // Create a temporary file for download
+    const tempDir = path.join(__dirname, 'temp');
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
+    
+    const tempFile = path.join(tempDir, `download_${randomBytes(8).toString('hex')}.m4a`);
+    
+    // yt-dlp command to download best audio
     const args = [
-      '--extract-audio',
-      '--audio-format', 'mp3',
-      '--audio-quality', '0', // best quality
+      '-f', 'bestaudio[ext=m4a]/bestaudio/best',
       '--no-warnings',
       '--no-call-home',
       '--no-check-certificate',
       '--user-agent', this.userAgent,
-      '-o', '-', // output to stdout
+      '--quiet',
+      '--no-playlist',
+      '--no-colors',
+      '-o', tempFile,
       url
     ];
 
     console.log('Downloading audio with yt-dlp:', url);
-    const ytdlp = spawn('yt-dlp', args);
+    
+    return new Promise((resolve, reject) => {
+      const ytdlp = spawn('yt-dlp', args);
+      
+      let errorOutput = '';
+      ytdlp.stderr.on('data', (data) => {
+        errorOutput += data.toString();
+      });
 
-    // Handle errors
-    ytdlp.stderr.on('data', (data) => {
-      const message = data.toString();
-      if (!message.includes('WARNING')) {
-        console.error('yt-dlp stderr:', message);
-      }
+      ytdlp.on('error', (error) => {
+        console.error('Failed to spawn yt-dlp:', error);
+        reject(error);
+      });
+
+      ytdlp.on('close', (code) => {
+        if (code !== 0) {
+          console.error('yt-dlp stderr:', errorOutput);
+          // Clean up temp file if it exists
+          if (fs.existsSync(tempFile)) {
+            fs.unlinkSync(tempFile);
+          }
+          reject(new Error(`yt-dlp exited with code ${code}: ${errorOutput}`));
+        } else {
+          // Create read stream from downloaded file
+          const stream = fs.createReadStream(tempFile);
+          
+          // Clean up temp file after streaming
+          stream.on('end', () => {
+            if (fs.existsSync(tempFile)) {
+              fs.unlinkSync(tempFile);
+            }
+          });
+          
+          stream.on('error', (err) => {
+            if (fs.existsSync(tempFile)) {
+              fs.unlinkSync(tempFile);
+            }
+          });
+          
+          resolve(stream);
+        }
+      });
     });
-
-    return ytdlp.stdout;
   }
 
   /**

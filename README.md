@@ -14,7 +14,7 @@ Convertisseur YouTube vers MP3 gratuit, rapide et sécurisé. Téléchargez vos 
 ## 🛠️ Technologies utilisées
 
 - **Backend** : Node.js + Express.js
-- **Conversion** : FFmpeg + ytdl-core
+- **Conversion** : FFmpeg + yt-dlp (avec fallback ytdl-core)
 - **Frontend** : HTML5, CSS3, JavaScript (Vanilla)
 - **Styling** : Tailwind CSS
 - **Icons** : Font Awesome
@@ -23,6 +23,7 @@ Convertisseur YouTube vers MP3 gratuit, rapide et sécurisé. Téléchargez vos 
 
 - Node.js (version 16 ou supérieure)
 - FFmpeg installé sur le système
+- yt-dlp (recommandé pour une meilleure compatibilité YouTube)
 - npm ou yarn
 
 ## 🔧 Installation locale
@@ -38,21 +39,26 @@ cd mp3rapide.fr
 npm install
 ```
 
-3. **Installer FFmpeg**
+3. **Installer FFmpeg et yt-dlp**
 
 **Sur Ubuntu/Debian :**
 ```bash
 sudo apt update
 sudo apt install ffmpeg
+# Installation de yt-dlp
+sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+sudo chmod a+rx /usr/local/bin/yt-dlp
 ```
 
 **Sur macOS :**
 ```bash
 brew install ffmpeg
+brew install yt-dlp
 ```
 
 **Sur Windows :**
-Téléchargez FFmpeg depuis https://ffmpeg.org/download.html
+- Téléchargez FFmpeg depuis https://ffmpeg.org/download.html
+- Téléchargez yt-dlp depuis https://github.com/yt-dlp/yt-dlp/releases
 
 4. **Démarrer l'application**
 ```bash
@@ -109,6 +115,8 @@ mp3rapide.fr/
 │   └── site.webmanifest   # Manifeste PWA
 ├── temp/                  # Fichiers temporaires
 ├── server.js              # Serveur Express
+├── ytdlp-wrapper.js       # Wrapper pour yt-dlp
+├── test-ytdlp.js          # Script de test
 ├── package.json           # Dépendances Node.js
 ├── Dockerfile             # Configuration Docker
 └── README.md              # Documentation
@@ -136,6 +144,24 @@ Assurez-vous que FFmpeg est installé et accessible dans le PATH :
 ffmpeg -version
 ```
 
+### Erreur "yt-dlp not found"
+Vérifiez l'installation de yt-dlp :
+```bash
+yt-dlp --version
+```
+
+### Erreur "Error when parsing watch.html"
+Cette erreur indique que YouTube a modifié sa structure. Solutions :
+1. Mettre à jour yt-dlp : `yt-dlp -U`
+2. Redémarrer le serveur
+3. Si l'erreur persiste, le service utilisera automatiquement ytdl-core en fallback
+
+### Test de fonctionnement
+Un script de test est disponible :
+```bash
+node test-ytdlp.js
+```
+
 ### Erreur de permissions
 Vérifiez que le dossier `temp/` a les bonnes permissions :
 ```bash
@@ -156,6 +182,34 @@ PORT=3001 npm start
 ## 📄 Licence
 
 MIT License - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+## 🔧 Maintenance
+
+### Mise à jour de yt-dlp
+Pour maintenir la compatibilité avec YouTube, mettez régulièrement à jour yt-dlp :
+```bash
+# Dans le conteneur Docker
+docker exec <container_name> yt-dlp -U
+
+# En local
+yt-dlp -U
+```
+
+### Surveillance des logs
+Surveillez les logs pour détecter les problèmes :
+```bash
+# Logs Docker
+docker logs -f <container_name>
+
+# Logs locaux
+npm start | grep -E "(error|Error|ERROR)"
+```
+
+### Reconstruction Docker après mise à jour
+Après modification du Dockerfile, forcez la reconstruction :
+```bash
+docker build --no-cache -t mp3rapide .
+```
 
 ---
 

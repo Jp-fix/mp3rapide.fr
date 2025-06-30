@@ -7,8 +7,8 @@
 6 silly config load:file:/Users/jp/.nvm/versions/node/v20.18.1/etc/npmrc
 7 verbose title npm view @anthropic-ai/claude-code@latest version
 8 verbose argv "view" "@anthropic-ai/claude-code@latest" "version"
-9 verbose logfile logs-max:10 dir:/Users/jp/ProjetsWeb/mp3rapide.fr/.npm-cache/_logs/2025-06-28T11_31_40_050Z-
-10 verbose logfile /Users/jp/ProjetsWeb/mp3rapide.fr/.npm-cache/_logs/2025-06-28T11_31_40_050Z-debug-0.log
+9 verbose logfile logs-max:10 dir:/Users/jp/ProjetsWeb/mp3rapide.fr/.npm-cache/_logs/2025-06-30T05_47_48_160Z-
+10 verbose logfile /Users/jp/ProjetsWeb/mp3rapide.fr/.npm-cache/_logs/2025-06-30T05_47_48_160Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
 12 silly logfile done cleaning log files
 13 http fetch GET 200 https://registry.npmjs.org/@anthropic-ai%2fclaude-code 156ms (cache revalidated)

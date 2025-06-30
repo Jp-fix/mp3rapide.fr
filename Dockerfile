@@ -1,8 +1,8 @@
 # Use Node.js 18 with Alpine for smaller image size
-# Force rebuild: v1.3.1
+# Force rebuild: v1.3.2
 FROM node:18-alpine
 
-# Install FFmpeg and build dependencies
+# Install FFmpeg, build dependencies, and certificates
 RUN apk add --no-cache \
     ffmpeg \
     python3 \
@@ -10,12 +10,18 @@ RUN apk add --no-cache \
     make \
     g++ \
     curl \
+    ca-certificates \
     && rm -rf /var/cache/apk/*
 
 # Install yt-dlp directly from binary for better reliability
 RUN curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp \
     && chmod a+rx /usr/local/bin/yt-dlp \
-    && yt-dlp --version
+    && yt-dlp --version \
+    && echo "yt-dlp installation verified"
+
+# Verify installations
+RUN ffmpeg -version && echo "FFmpeg installation verified" \
+    && yt-dlp --help > /dev/null && echo "yt-dlp command verified"
 
 # Set working directory
 WORKDIR /app
