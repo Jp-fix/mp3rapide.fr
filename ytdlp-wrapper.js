@@ -1,17 +1,57 @@
 const YTDlpWrap = require('yt-dlp-wrap').default;
 const path = require('path');
 const os = require('os');
+const which = require('which');
+const fs = require('fs');
 
 class YtDlpWrapper {
   constructor() {
-    const binDir = path.join(__dirname, 'bin');
     this.ytDlpWrap = new YTDlpWrap();
-    this.ytDlpWrap.setBinaryPath(path.join(binDir, 'yt-dlp'));
+    this.ytdlpPath = null;
+    this.initializePath();
+  }
+
+  initializePath() {
+    // First, check if we're in Docker (the Docker path exists)
+    const dockerPath = '/usr/local/bin/yt-dlp';
+    if (fs.existsSync(dockerPath)) {
+      this.ytDlpPath = dockerPath;
+      console.log('Using Docker yt-dlp path:', this.ytDlpPath);
+    } else {
+      // Try to find yt-dlp in the system PATH
+      try {
+        this.ytDlpPath = which.sync('yt-dlp');
+        console.log('Found yt-dlp in PATH:', this.ytDlpPath);
+      } catch (error) {
+        console.error('yt-dlp not found in PATH. Please install yt-dlp:');
+        console.error('- macOS: brew install yt-dlp');
+        console.error('- Linux: sudo apt-get install yt-dlp');
+        console.error('- Or download from: https://github.com/yt-dlp/yt-dlp');
+        this.ytDlpPath = null;
+      }
+    }
+
+    if (this.ytDlpPath) {
+      this.ytDlpWrap.setBinaryPath(this.ytDlpPath);
+    }
   }
 
   async getInfo(url) {
+    if (!this.ytDlpPath) {
+      throw new Error('yt-dlp is not installed. Please install yt-dlp to use this feature.');
+    }
+
     try {
-      const metadata = await this.ytDlpWrap.getVideoInfo(url);
+      // Use execPromise directly to avoid the automatic "-f best" parameter
+      const output = await this.ytDlpWrap.execPromise([
+        url,
+        '--dump-json',
+        '--no-warnings',
+        '--no-playlist'
+      ]);
+      
+      const metadata = JSON.parse(output);
+      
       return {
         videoDetails: {
           title: metadata.title || 'Unknown Title',
@@ -30,6 +70,10 @@ class YtDlpWrapper {
   }
 
   async downloadAudio(url) {
+    if (!this.ytDlpPath) {
+      throw new Error('yt-dlp is not installed. Please install yt-dlp to use this feature.');
+    }
+
     const EventEmitter = require('events');
     const stream = new EventEmitter();
     this.ytDlpWrap.exec([
@@ -44,12 +88,7 @@ class YtDlpWrapper {
   }
 
   async checkInstallation() {
-    try {
-      await this.ytDlpWrap.getBinaryPath();
-      return true;
-    } catch (error) {
-      return false;
-    }
+    return this.ytDlpPath !== null;
   }
 }
 
