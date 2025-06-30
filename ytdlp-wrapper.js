@@ -47,7 +47,11 @@ class YtDlpWrapper {
         url,
         '--dump-json',
         '--no-warnings',
-        '--no-playlist'
+        '--no-playlist',
+        '--no-check-certificates',  // Help with SSL issues in Docker
+        '--user-agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        '--extractor-args', 'youtube:player_client=android',  // Use Android client to avoid bot detection
+        '--extractor-args', 'youtube:player_skip=webpage'     // Skip webpage extraction
       ]);
       
       const metadata = JSON.parse(output);
@@ -65,6 +69,12 @@ class YtDlpWrapper {
       };
     } catch (error) {
       console.error(`Failed to get video info with yt-dlp for URL: ${url}`, error);
+      console.error('Error details:', {
+        message: error.message,
+        code: error.code,
+        stderr: error.stderr,
+        stdout: error.stdout
+      });
       throw new Error(`yt-dlp failed: ${error.message}`);
     }
   }
@@ -80,6 +90,9 @@ class YtDlpWrapper {
       url,
       '-f', 'bestaudio[ext=m4a]/bestaudio/best',
       '-o', '-',
+      '--user-agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      '--extractor-args', 'youtube:player_client=android',
+      '--extractor-args', 'youtube:player_skip=webpage'
     ])
     .on('data', (data) => stream.emit('data', data))
     .on('error', (err) => stream.emit('error', err))
