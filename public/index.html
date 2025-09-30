@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary Meta Tags -->
-    <title>
-      Convertisseur YouTube to MP3 - Téléchargeur MP3 Gratuit | MP3Rapide.fr
-    </title>
+    <title>MP3Rapide - Convertisseur YouTube vers MP3 Gratuit et Rapide</title>
     <meta
       name="title"
-      content="YouTube to MP3 Converter - Téléchargeur MP3 Gratuit | MP3Rapide.fr"
+      content="MP3Rapide - Convertisseur YouTube vers MP3 Gratuit et Rapide"
     />
     <meta
       name="description"
-      content="Convertissez n'importe quelle vidéo YouTube en MP3 haute qualité. MP3Rapide.fr - convertisseur gratuit, rapide et sans publicité. Téléchargez vos MP3 en 320kbps."
+      content="Convertissez n'importe quelle vidéo YouTube en MP3 haute qualité en 3 clics. Rapide, gratuit, sans publicité. Qualité 320kbps garantie."
     />
     <meta
       name="keywords"
@@ -29,11 +27,11 @@
     <meta property="og:url" content="https://mp3rapide.fr/" />
     <meta
       property="og:title"
-      content="YouTube to MP3 Converter - Téléchargeur MP3 Gratuit | MP3Rapide.fr"
+      content="MP3Rapide - Convertisseur YouTube vers MP3 Gratuit et Rapide"
     />
     <meta
       property="og:description"
-      content="Convertissez n'importe quelle vidéo YouTube en MP3 haute qualité. MP3Rapide.fr - convertisseur gratuit, rapide et sans publicité. Téléchargez vos MP3 en 320kbps."
+      content="Convertissez n'importe quelle vidéo YouTube en MP3 haute qualité en 3 clics. Rapide, gratuit, sans publicité. Qualité 320kbps garantie."
     />
     <meta
       property="og:image"
@@ -50,42 +48,240 @@
     <meta property="twitter:url" content="https://mp3rapide.fr/" />
     <meta
       property="twitter:title"
-      content="YouTube to MP3 Converter - Téléchargeur MP3 Gratuit | MP3Rapide.fr"
+      content="MP3Rapide - Convertisseur YouTube vers MP3 Gratuit et Rapide"
     />
     <meta
       property="twitter:description"
-      content="Convertissez n'importe quelle vidéo YouTube en MP3 haute qualité. MP3Rapide.fr - convertisseur gratuit, rapide et sans publicité. Téléchargez vos MP3 en 320kbps."
+      content="Convertissez n'importe quelle vidéo YouTube en MP3 haute qualité en 3 clics. Rapide, gratuit, sans publicité."
     />
     <meta
       property="twitter:image"
       content="https://mp3rapide.fr/img/android-chrome-512x512.png"
     />
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://mp3rapide.fr/" />
-
-    <!-- Favicon and Icons -->
-    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/img/android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/img/android-chrome-512x512.png" />
+    <!-- Favicons -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/img/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/img/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/img/favicon-16x16.png"
+    />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://cdn.tailwindcss.com" />
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "MP3Rapide",
+        "url": "https://mp3rapide.fr",
+        "description": "Convertisseur YouTube vers MP3 gratuit et rapide",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        }
+      }
+    </script>
 
     <!-- CSS and Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      rel="stylesheet"
-      crossorigin="anonymous"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/framer-motion@11/dist/framer-motion.min.js"></script>
+
     <style>
-      /* Additional SEO and Performance CSS */
+      /* CSS Variables for design system */
+      :root {
+        --primary: #2E2E25;
+        --primary-light: #3A3A30;
+        --accent: #2563eb;
+        --background: #ffffff;
+        --surface: #f8f9fa;
+        --text-primary: #1a1a1a;
+        --text-secondary: #6b7280;
+        --border: #e5e7eb;
+        --radius: 12px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background: var(--background);
+        font-display: swap;
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 3px;
+      }
+
+      /* Focus improvements for accessibility */
+      *:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* Button component styles */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 24px;
+        border-radius: var(--radius);
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-light);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: var(--surface);
+        color: var(--text-primary);
+        border: 1px solid var(--border);
+      }
+
+      .btn-secondary:hover {
+        background: #f1f5f9;
+        border-color: var(--primary);
+      }
+
+      .btn-lg {
+        padding: 16px 32px;
+        font-size: 16px;
+      }
+
+      /* Card component styles */
+      .card {
+        background: white;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        padding: 24px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+      }
+
+      .card:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Input styles */
+      .input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        font-size: 14px;
+        transition: all 0.2s ease;
+        background: white;
+      }
+
+      .input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      /* Progress bar styles */
+      .progress {
+        width: 100%;
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: var(--accent);
+        transition: width 0.3s ease;
+        border-radius: 4px;
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      .animate-fadeInUp {
+        animation: fadeInUp 0.6s ease-out;
+      }
+
+      .animate-fadeIn {
+        animation: fadeIn 0.4s ease-out;
+      }
+
+      .animate-spin {
+        animation: spin 1s linear infinite;
+      }
+
+      /* Utility classes */
       .sr-only {
         position: absolute;
         width: 1px;
@@ -98,444 +294,443 @@
         border: 0;
       }
 
-      /* Focus improvements for accessibility */
-      *:focus {
-        outline: 2px solid #2563eb;
-        outline-offset: 2px;
+      /* Header styles */
+      .header-blur {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95);
       }
 
-      /* Smooth scrolling */
-      html {
-        scroll-behavior: smooth;
+      /* Hero gradient */
+      .hero-gradient {
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
       }
 
-      /* Loading optimization */
-      .animate-spin {
-        animation: spin 1s linear infinite;
+      /* Dark section */
+      .dark-section {
+        background: var(--primary);
+        color: white;
       }
 
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
+      .dark-section .btn-primary {
+        background: white;
+        color: var(--primary);
+      }
+
+      .dark-section .btn-primary:hover {
+        background: #f1f5f9;
+      }
+
+      /* Responsive utilities */
+      @media (max-width: 768px) {
+        .btn {
+          padding: 10px 20px;
+          font-size: 14px;
         }
-        to {
-          transform: rotate(360deg);
+
+        .btn-lg {
+          padding: 14px 28px;
+          font-size: 15px;
+        }
+
+        .card {
+          padding: 20px;
+        }
+
+        /* Mobile header adjustments */
+        header .flex {
+          padding: 0 16px;
+        }
+
+        header nav {
+          display: none;
+        }
+
+        /* Mobile hero section */
+        .hero-gradient h1 {
+          font-size: 2.5rem;
+          line-height: 1.2;
+        }
+
+        .hero-gradient p {
+          font-size: 1.125rem;
+        }
+
+        /* Mobile video info layout */
+        #videoInfo .flex {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        #videoThumbnail {
+          width: 100%;
+          max-width: 200px;
+          height: auto;
+          margin: 0 auto 16px;
+        }
+
+        /* Mobile grid adjustments */
+        .grid.md\\:grid-cols-3 {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+
+        /* Modal adjustments */
+        .fixed .bg-white {
+          margin: 16px;
+          max-width: calc(100vw - 32px);
         }
       }
 
-      /* Optimize font loading */
-      body {
-        font-display: swap;
+      @media (max-width: 480px) {
+        .hero-gradient {
+          padding-top: 80px;
+          padding-bottom: 60px;
+        }
+
+        .hero-gradient h1 {
+          font-size: 2rem;
+        }
+
+        .card {
+          padding: 16px;
+        }
+
+        section {
+          padding: 60px 16px;
+        }
+
+        .max-w-4xl,
+        .max-w-6xl {
+          padding: 0 16px;
+        }
       }
+
+      /* High contrast mode support */
+      @media (prefers-contrast: high) {
+        .btn-primary {
+          background: #000;
+          border: 2px solid #000;
+        }
+
+        .btn-secondary {
+          background: #fff;
+          color: #000;
+          border: 2px solid #000;
+        }
+
+        .card {
+          border: 2px solid #000;
+        }
+      }
+
+      /* Reduced motion support */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        html {
+          scroll-behavior: auto;
+        }
+      }
+
+      /* Print styles */
+      @media print {
+        header,
+        footer,
+        .dark-section {
+          display: none;
+        }
+
+        body {
+          background: white;
+          color: black;
+        }
+
+        .card {
+          border: 1px solid #000;
+          box-shadow: none;
+        }
+      }
+
+      /* Status states */
+      .status-hidden { display: none; }
+      .status-loading { display: flex; }
+      .status-success { display: block; }
+      .status-error { display: block; }
     </style>
-
-    <!-- Structured Data JSON-LD -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "MP3Rapide.fr - YouTube to MP3 Converter",
-        "description": "Convertisseur YouTube vers MP3 gratuit et rapide. Téléchargez vos vidéos YouTube préférées en format MP3 haute qualité.",
-        "url": "https://mp3rapide.fr/",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "Any",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "EUR"
-        },
-        "featureList": [
-          "Conversion YouTube vers MP3",
-          "Qualité audio haute fidélité jusqu'à 320kbps",
-          "Téléchargement gratuit et illimité",
-          "Interface simple et intuitive",
-          "Pas d'inscription requise",
-          "Compatible tous appareils"
-        ],
-        "screenshot": "https://mp3rapide.fr/img/android-chrome-512x512.png",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.8",
-          "ratingCount": "2847"
-        }
-      }
-    </script>
-
-    <!-- Additional SEO Meta -->
-    <meta name="theme-color" content="#2563eb" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="MP3Rapide.fr" />
-    
-    <!-- PWA Meta Tags -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="application-name" content="MP3Rapide.fr" />
-    <meta name="msapplication-TileColor" content="#2563eb" />
-    <meta name="msapplication-TileImage" content="/img/android-chrome-192x192.png" />
-    <meta name="msapplication-config" content="/browserconfig.xml" />
-    
-    <!-- Remove unnecessary preloads to avoid console warnings -->
   </head>
-  <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-      <div class="max-w-2xl mx-auto">
-        <!-- Header -->
-        <header class="text-center mb-8">
-          <h1 class="text-4xl font-bold text-gray-800 mb-4">
-            <i class="fas fa-music text-blue-600 mr-2" aria-hidden="true"></i>
-            Convertisseur YouTube to MP3 mp3Rapide.fr
-          </h1>
-          <p class="text-xl text-gray-600 mb-4">
-            Convertissez vos vidéos YouTube préférées en MP3 haute qualité
-          </p>
-          <p class="text-gray-500">
-            ✓ Gratuit ✓ Rapide ✓ Sans inscription ✓ Qualité jusqu'à 320kbps
-          </p>
-        </header>
 
-        <!-- Main Card -->
-        <main class="bg-white rounded-xl shadow-lg p-8">
-          <!-- URL Input Form -->
-          <section aria-labelledby="converter-heading">
-            <h2 id="converter-heading" class="sr-only">
-              Convertisseur YouTube vers MP3
-            </h2>
-            <form
-              id="urlForm"
-              class="mb-6"
-              role="form"
-              aria-label="Formulaire de conversion YouTube vers MP3"
-            >
-              <div class="flex flex-col space-y-4">
-                <label
-                  for="youtubeUrl"
-                  class="text-sm font-medium text-gray-700"
-                >
-                  URL de la vidéo YouTube
-                </label>
-                <div class="flex">
+  <body>
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="header">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo -->
+          <div class="flex-shrink-0">
+            <a href="#" class="text-xl font-bold text-gray-900">MP3Rapide</a>
+          </div>
+
+          <!-- Navigation -->
+          <nav class="hidden md:block">
+            <div class="flex items-center space-x-8">
+              <a href="#convertir" class="text-gray-600 hover:text-gray-900 transition-colors">Convertir</a>
+              <a href="#avantages" class="text-gray-600 hover:text-gray-900 transition-colors">Avantages</a>
+              <a href="#process" class="text-gray-600 hover:text-gray-900 transition-colors">Comment ça marche</a>
+            </div>
+          </nav>
+
+          <!-- CTA -->
+          <div class="flex-shrink-0">
+            <a href="#convertir" class="btn btn-primary">
+              Essayer maintenant →
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-24 pb-20 px-4 sm:px-6 lg:px-8" id="hero">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="animate-fadeInUp">
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            Convertissez YouTube en MP3
+            <span class="text-blue-600">en 3 clics</span>
+          </h1>
+          <p class="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+            Rapide, gratuit, sans publicité. Qualité 320kbps garantie.
+            Plus de 1 million de conversions réussies.
+          </p>
+        </div>
+
+        <!-- Conversion Interface -->
+        <div class="max-w-2xl mx-auto animate-fadeInUp" style="animation-delay: 0.2s;" id="convertir">
+          <div class="card bg-white shadow-xl">
+            <form id="urlForm">
+              <div class="space-y-4">
+                <div>
+                  <label for="youtubeUrl" class="sr-only">URL de la vidéo YouTube</label>
                   <input
                     type="url"
                     id="youtubeUrl"
-                    name="youtubeUrl"
-                    placeholder="https://www.youtube.com/watch?v=..."
-                    class="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    name="url"
+                    placeholder="Collez l'URL de votre vidéo YouTube ici..."
+                    class="input"
+                    required
                     aria-describedby="url-help"
                     autocomplete="url"
-                    required
                   />
-                  <div id="url-help" class="sr-only">
-                    Collez ici l'URL complète de votre vidéo YouTube
-                  </div>
-                  <button
-                    type="submit"
-                    class="px-6 py-3 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-                    aria-label="Rechercher et analyser la vidéo YouTube"
-                  >
-                    <i class="fas fa-search" aria-hidden="true"></i>
-                    <span class="sr-only">Rechercher</span>
-                  </button>
+                  <div id="url-help" class="sr-only">Entrez une URL YouTube valide, par exemple : https://www.youtube.com/watch?v=...</div>
                 </div>
-              </div>
-            </form>
-          </section>
-
-          <!-- Loading State -->
-          <div id="loadingState" class="hidden text-center py-8">
-            <div
-              class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"
-            ></div>
-            <p class="text-gray-600">Récupération des informations...</p>
-          </div>
-
-          <!-- Error Message -->
-          <div
-            id="errorMessage"
-            class="hidden bg-red-50 border border-red-200 rounded-lg p-4 mb-6"
-          >
-            <div class="flex items-center">
-              <i class="fas fa-exclamation-triangle text-red-500 mr-3"></i>
-              <span class="text-red-700" id="errorText"></span>
-            </div>
-          </div>
-
-          <!-- Video Info -->
-          <div id="videoInfo" class="hidden">
-            <div class="border rounded-lg p-6 mb-6">
-              <div class="flex flex-col md:flex-row gap-4">
-                <div class="flex-shrink-0">
-                  <img
-                    id="videoThumbnail"
-                    src=""
-                    alt="Thumbnail"
-                    class="w-full md:w-32 h-24 object-cover rounded-lg"
-                  />
-                </div>
-                <div class="flex-1">
-                  <h3
-                    id="videoTitle"
-                    class="font-semibold text-gray-800 mb-2"
-                  ></h3>
-                  <div class="text-sm text-gray-600 space-y-1">
-                    <p>
-                      <i class="fas fa-user mr-2"></i
-                      ><span id="videoAuthor"></span>
-                    </p>
-                    <p>
-                      <i class="fas fa-clock mr-2"></i
-                      ><span id="videoDuration"></span>
-                    </p>
-                    <p>
-                      <i class="fas fa-eye mr-2"></i
-                      ><span id="videoViews"></span> vues
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Download Button -->
-            <div class="text-center">
-              <button
-                id="downloadBtn"
-                class="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
-              >
-                <i class="fas fa-download mr-2"></i>
-                Convertir en MP3
-              </button>
-            </div>
-          </div>
-
-          <!-- Download Progress -->
-          <div id="downloadProgress" class="hidden text-center py-8">
-            <div
-              class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mb-4"
-            ></div>
-            <p class="text-gray-600">Conversion en MP3...</p>
-            <p class="text-sm text-gray-500 mt-2">
-              Conversion en cours, cela peut prendre quelques minutes
-            </p>
-          </div>
-
-        </main>
-
-        <!-- SEO Content Section -->
-        <article class="bg-white rounded-xl shadow-lg p-8 mt-8">
-          <section>
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">
-              Comment convertir YouTube en MP3 ?
-            </h2>
-            <div class="space-y-4 text-gray-600">
-              <ol class="list-decimal list-inside space-y-2">
-                <li>
-                  <strong>Copiez l'URL</strong> de votre vidéo YouTube préférée
-                </li>
-                <li><strong>Collez le lien</strong> dans le champ ci-dessus</li>
-                <li>
-                  <strong>Cliquez sur rechercher</strong> pour analyser la vidéo
-                </li>
-                <li><strong>Téléchargez votre MP3</strong> en haute qualité</li>
-              </ol>
-              <p class="mt-4">
-                Notre convertisseur YouTube MP3 est entièrement gratuit et ne
-                nécessite aucune inscription. Profitez d'une qualité audio
-                exceptionnelle jusqu'à 320kbps.
-              </p>
-            </div>
-          </section>
-
-          <section class="mt-8">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">
-              Pourquoi choisir MP3Rapide.fr ?
-            </h3>
-            <div class="grid md:grid-cols-2 gap-6 text-gray-600">
-              <div>
-                <h4 class="font-semibold text-gray-800 mb-2">
-                  <i class="fas fa-bolt text-yellow-500 mr-2"></i>Ultra Rapide
-                </h4>
-                <p>
-                  Conversion instantanée de vos vidéos YouTube en MP3. Notre
-                  technologie optimisée garantit des téléchargements en quelques
-                  secondes.
-                </p>
-              </div>
-              <div>
-                <h4 class="font-semibold text-gray-800 mb-2">
-                  <i class="fas fa-shield-alt text-green-500 mr-2"></i>100%
-                  Sécurisé
-                </h4>
-                <p>
-                  Aucun virus, aucun malware. Notre service est entièrement
-                  sécurisé et respecte votre vie privée.
-                </p>
-              </div>
-              <div>
-                <h4 class="font-semibold text-gray-800 mb-2">
-                  <i class="fas fa-mobile-alt text-blue-500 mr-2"></i>Compatible
-                </h4>
-                <p>
-                  Fonctionne sur tous les appareils : PC, Mac, smartphone,
-                  tablette. Aucune installation requise.
-                </p>
-              </div>
-              <div>
-                <h4 class="font-semibold text-gray-800 mb-2">
-                  <i class="fas fa-music text-purple-500 mr-2"></i>Haute Qualité
-                </h4>
-                <p>
-                  Téléchargez vos MP3 en qualité studio jusqu'à 320kbps pour une
-                  expérience d'écoute optimale.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section class="mt-8">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">
-              Questions Fréquentes
-            </h3>
-            <div class="space-y-4">
-              <details class="bg-gray-50 rounded-lg p-4">
-                <summary class="font-semibold text-gray-800 cursor-pointer">
-                  Est-ce que MP3Rapide.fr est gratuit ?
-                </summary>
-                <p class="mt-2 text-gray-600">
-                  Oui, notre convertisseur YouTube vers MP3 est entièrement
-                  gratuit. Aucun frais caché, aucune limite de téléchargement.
-                </p>
-              </details>
-              <details class="bg-gray-50 rounded-lg p-4">
-                <summary class="font-semibold text-gray-800 cursor-pointer">
-                  Quelle est la qualité audio disponible ?
-                </summary>
-                <p class="mt-2 text-gray-600">
-                  Nous proposons une qualité audio allant jusqu'à 320kbps, soit
-                  la meilleure qualité disponible pour le format MP3.
-                </p>
-              </details>
-              <details class="bg-gray-50 rounded-lg p-4">
-                <summary class="font-semibold text-gray-800 cursor-pointer">
-                  Y a-t-il des limites de téléchargement ?
-                </summary>
-                <p class="mt-2 text-gray-600">
-                  Non, vous pouvez convertir autant de vidéos YouTube que vous
-                  le souhaitez, sans aucune restriction.
-                </p>
-              </details>
-              <details class="bg-gray-50 rounded-lg p-4">
-                <summary class="font-semibold text-gray-800 cursor-pointer">
-                  Le service fonctionne-t-il sur mobile ?
-                </summary>
-                <p class="mt-2 text-gray-600">
-                  Absolument ! MP3Rapide.fr est optimisé pour tous les appareils
-                  mobiles et tablettes.
-                </p>
-              </details>
-            </div>
-          </section>
-        </article>
-
-        <!-- Footer -->
-        <footer class="text-center mt-8 bg-white rounded-xl shadow-lg p-6">
-          <div class="space-y-4">
-            <div class="text-gray-800 font-semibold">
-              <i class="fas fa-music text-blue-600 mr-2"></i>
-              MP3Rapide.fr - Convertisseur YouTube MP3 Gratuit
-            </div>
-            <div
-              class="flex flex-wrap justify-center gap-4 text-sm text-blue-600"
-            >
-              <a href="#" class="hover:text-blue-800 transition-colors"
-                >Conditions d'utilisation</a
-              >
-              <a href="#" class="hover:text-blue-800 transition-colors"
-                >Politique de confidentialité</a
-              >
-              <a href="#" class="hover:text-blue-800 transition-colors"
-                >Contact</a
-              >
-              <a href="#" class="hover:text-blue-800 transition-colors">FAQ</a>
-            </div>
-            <div class="text-gray-500 text-sm space-y-2">
-              <p>
-                Respectez les droits d'auteur et les conditions d'utilisation de
-                YouTube
-              </p>
-              <p>© 2024 MP3Rapide.fr - Tous droits réservés</p>
-              <p class="text-xs">
-                Convertisseur YouTube vers MP3 gratuit, rapide et sécurisé.
-                Téléchargez vos musiques préférées en haute qualité.
-              </p>
-            </div>
-            
-            <!-- Ko-fi Support Button -->
-            <div class="mt-4">
-              <div id="kofiFooter" class="flex justify-center">
-                <a
-                  href="https://ko-fi.com/V7V41H5OBB"
-                  target="_blank"
-                  class="inline-flex items-center px-6 py-3 bg-[#72a4f2] text-white rounded-lg hover:bg-[#5a92e0] transition-colors font-medium"
-                >
-                  <i class="fas fa-heart mr-2"></i>
-                  Soutenir mp3rapide
-                </a>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </div>
-    </div>
-
-    <!-- Success Modal -->
-    <div id="successModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-      <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <!-- Background overlay -->
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" id="modalOverlay"></div>
-
-        <!-- This element is to trick the browser into centering the modal contents. -->
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-        <!-- Modal panel -->
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
-              <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                <i class="fas fa-check text-green-600"></i>
-              </div>
-              <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1">
-                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                  Téléchargement réussi !
-                </h3>
-                <div class="mt-2">
-                  <p class="text-sm text-gray-500">
-                    Votre fichier MP3 a été téléchargé avec succès.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="bg-gray-50 px-4 py-3 sm:px-6">
-            <div class="space-y-3">
-              <p class="text-center text-sm text-gray-600 mb-3">
-                Votre soutien nous aide à maintenir ce service gratuit 💙
-              </p>
-              <div class="flex flex-col sm:flex-row gap-3">
-                <!-- Ko-fi Button Container -->
-                <div id="kofiModal" class="flex justify-center flex-1"></div>
-                
-                <!-- Convert Another Video Button -->
-                <button
-                  id="convertAnotherBtnModal"
-                  class="flex-1 inline-flex justify-center items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors text-sm font-medium"
-                >
-                  <i class="fas fa-redo mr-2"></i>
-                  Convertir une autre vidéo
+                <button type="submit" class="btn btn-primary btn-lg w-full" id="convertBtn">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                  Convertir en MP3
                 </button>
               </div>
-              <button
-                id="closeModalBtn"
-                class="w-full inline-flex justify-center items-center px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition-colors text-sm font-medium"
-              >
+            </form>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="status-hidden mt-6 text-center" role="status" aria-live="polite">
+              <div class="flex items-center justify-center space-x-3 text-blue-600">
+                <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span id="loadingText">Analyse de la vidéo...</span>
+              </div>
+              <div class="progress mt-4" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <!-- Video Info -->
+            <div id="videoInfo" class="status-hidden mt-6">
+              <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
+                <img id="videoThumbnail" src="" alt="Miniature vidéo" class="w-24 h-18 object-cover rounded-lg">
+                <div class="flex-1 min-w-0">
+                  <h3 id="videoTitle" class="font-semibold text-gray-900 truncate"></h3>
+                  <p id="videoAuthor" class="text-sm text-gray-600 mt-1"></p>
+                  <div class="flex items-center mt-2 text-sm text-gray-500 space-x-4">
+                    <span id="videoDuration"></span>
+                    <span id="videoViews"></span>
+                  </div>
+                </div>
+              </div>
+              <button id="downloadBtn" class="btn btn-primary btn-lg w-full mt-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                Télécharger MP3 (320kbps)
+              </button>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="status-hidden mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <div class="flex items-center text-red-800">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <span id="errorMessage">Une erreur est survenue</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Avantages Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50" id="avantages">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Pourquoi choisir MP3Rapide ?
+          </h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            La solution la plus rapide et fiable pour convertir vos vidéos YouTube en MP3
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Conversion ultra-rapide -->
+          <div class="card text-center">
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Conversion ultra-rapide</h3>
+            <p class="text-gray-600 mb-4">Convertissez vos vidéos en moins de 30 secondes grâce à notre infrastructure optimisée.</p>
+            <div class="text-sm font-medium text-blue-600">⚡ Moins de 30 secondes</div>
+          </div>
+
+          <!-- Qualité premium -->
+          <div class="card text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Qualité premium</h3>
+            <p class="text-gray-600 mb-4">Audio 320kbps sans perte de qualité. La meilleure qualité disponible sur le marché.</p>
+            <div class="text-sm font-medium text-green-600">🎵 320kbps garantis</div>
+          </div>
+
+          <!-- 100% gratuit -->
+          <div class="card text-center">
+            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">100% gratuit</h3>
+            <p class="text-gray-600 mb-4">Aucune limite, aucune inscription requise. Convertissez autant de vidéos que vous voulez.</p>
+            <div class="text-sm font-medium text-purple-600">💯 Illimité et gratuit</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8" id="process">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Comment ça marche ?
+          </h2>
+          <p class="text-xl text-gray-600">
+            Un processus simple en 3 étapes pour convertir vos vidéos
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Étape 1 -->
+          <div class="text-center">
+            <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">1</div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Collez l'URL</h3>
+            <p class="text-gray-600">Copiez le lien de votre vidéo YouTube et collez-le dans le champ ci-dessus</p>
+          </div>
+
+          <!-- Étape 2 -->
+          <div class="text-center">
+            <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">2</div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Cliquez sur Convertir</h3>
+            <p class="text-gray-600">Notre système analyse et convertit automatiquement votre vidéo en MP3 320kbps</p>
+          </div>
+
+          <!-- Étape 3 -->
+          <div class="text-center">
+            <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">3</div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Téléchargez</h3>
+            <p class="text-gray-600">Votre fichier MP3 est prêt ! Cliquez sur télécharger et profitez de votre musique</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="dark-section py-20 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          Prêt à convertir vos vidéos ?
+        </h2>
+        <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          Rejoignez plus d'un million d'utilisateurs qui nous font confiance pour convertir leurs vidéos YouTube en MP3
+        </p>
+        <a href="#convertir" class="btn btn-primary btn-lg">
+          Commencer maintenant - C'est gratuit
+        </a>
+        <p class="text-sm text-gray-400 mt-4">
+          Aucune inscription requise • Conversion illimitée • 100% sécurisé
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center">
+          <div class="text-lg font-bold text-gray-900 mb-4">MP3Rapide</div>
+          <p class="text-gray-600 mb-6">Le convertisseur YouTube vers MP3 le plus rapide et fiable</p>
+
+          <div class="flex justify-center space-x-6 mb-6">
+            <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">À propos</a>
+            <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Confidentialité</a>
+            <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Conditions</a>
+            <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
+          </div>
+
+          <div class="text-sm text-gray-500">
+            © 2025 MP3Rapide.fr • Fait avec ❤️ pour la musique
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 z-50 hidden">
+      <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" id="modalOverlay"></div>
+      <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-6">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Téléchargement réussi !</h3>
+            <p class="text-gray-600 mb-6">Votre fichier MP3 a été téléchargé avec succès.</p>
+            <div class="space-y-3">
+              <button id="convertAnotherBtnModal" class="btn btn-primary w-full">
+                Convertir une autre vidéo
+              </button>
+              <button id="closeModalBtn" class="btn btn-secondary w-full">
                 Fermer
               </button>
             </div>
